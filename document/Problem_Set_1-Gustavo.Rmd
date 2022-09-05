@@ -16,91 +16,37 @@ linkcolor: red
 
 # Preparar espacio de trabajo
 
-Primero preparamos el espacio de trabajo y cargamos las librerías a utilizar. Cargar las librerías necesarias mediante el paquete `groundhog` asegura la replicabilidad del código a a pesar de que ocurran cambios en las dependencias o en las librerías m
-```{r, results='hide'}
-# Prepare workspace
-rm(list = ls())
+Los documentos necesarios para replicar los datos aquí presente se debe acceder al repositorio [en este enlace](https://github.com/bob-ortiz/BDML-ps1). 
 
-# Set working directory
-setwd("/Users/upar/Dropbox/00-SCHOOL/0-University/0-Semesters/2022-20/6-Big_Data_and_ML_for_Applied_Economics/2-Evaluaciones/Problem_Sets/Problem_Set-1/BDML-ps1/results") #GUSTAVO
+Primero preparamos el espacio de trabajo y cargamos las librerías a utilizar. Cargar las librerías necesarias mediante el paquete `groundhog` asegura la replicabilidad del código a a pesar de que ocurran cambios en las dependencias o en las librerías.
 
-# Install Groundhog to ensure replicability 
-install.packages("groundhog")
+```{r}
+install.packages("groundhog", repos = "http://cran.us.r-project.org")
 library(groundhog)
-
-# Load all required packages
 pkgs=c("rvest", "dplyr", "caret", "kableExtra", "tidyverse", "stargazer")
 groundhog.library(pkg = pkgs, "2022-08-31")
-
-
 ```
-
 
 
 # Datos
 
 ## Adquisición de datos
 
-Para obtener los datos de la base GEIH realicé el raspado web a partir de la [página web del profesor](https://ignaciomsarmiento.github.io/GEIH2018 sample/).
+Para obtener los datos de la base GEIH realicé el raspado web a partir de la [página web del profesor](https://ignaciomsarmiento.github.io/GEIH2018 sample/). Para obtener la base completa primero corro el script `1-scraping.R`. Para la 
 
-```{r eval=FALSE}
-# Scrape the data
-url_test <- paste0("https://ignaciomsarmiento.github.io/GEIH2018_sample/pages/geih_page_", 1:10, ".html")
-geih <- data.frame()
-for (url in url_test) {
-  print(url)
-  source_table <- read_html(url) %>%
-    html_table()
-  temp <- as.data.frame(source_table)
-  print(nrow(temp))
-  geih <- rbind(geih, temp)
-}
-```
-
-```{r karol, eval=FALSE}
-##(a)	Data acquisition
-
-rm(list = ls())
-pacman::p_load(rvest, dplyr, tidy, caret, kableExtra, tidyverse)
-url_test <- paste0("https://ignaciomsarmiento.github.io/GEIH2018_sample/pages/geih_page_", 1:10, ".html")
-geih <- data.frame()
-for (url in url_test) {
-  print(url)
-  source_table <- read_html(url) %>%
-    html_table()
-  temp <- as.data.frame(source_table)
-  print(nrow(temp))
-  geih <- rbind(geih, temp)
-}
-view(geih)
-
-
-##(b)	Data Cleaning 
-#seleccionamos las variables relevantes para nuestro estudio
-#seleccionamos todas las variables relevantes
-
-geih2018 <- geih %>% select(ingtotob, age, p6210, dsi, maxEducLevel,estrato1)
-
-geihmodificado <- geih2018 %>% filter(age >=18)
-view(geihmodificado)
-
-baselista <- geihmodificado %>% filter(dsi != "0")
-view(baselista)
-
-base2018 <- na.omit(baselista)
-```
 
 
 # Punto 2: Age-earnings profile
 
 ```{r}
+df <- read.csv("../stores/encuesta.csv")
 df <- df %>% 
   mutate(age_sqr = age * age)
 
 model2 <- lm(df$ingtotob~df$age+df$age_sqr)
-shortgeih <- geih %>% filter(age>=18, dsi==0)
-model3 <- lm(shortgeih$ingtot~shortgeih$age+(shortgeih %>% mutate(age2 = age*age))$age2)
-stargazer(model2, model3, type = "text")
+#shortgeih <- geih %>% filter(age>=18, dsi==0)
+#model3 <- lm(shortgeih$ingtot~shortgeih$age+(shortgeih %>% mutate(age2 = age*age))$age2)
+stargazer(model2, type = "text")
 
 ```
 
@@ -118,16 +64,31 @@ df <- df %>%
 
 ```
 
-
-
-# Complementaria Eduardo
 ```{r}
+# Análisis descriptivo
+## Y
+class(df$ingtotob)
+plot(hist(df$ingtotob))
 
-df = mtcars %>% mutate(i_mpg = ifelse(mpg>0, "aumenta","disminuye"), modelo=rownames(.))
-summary(df)
-df
-df %>% head() %>% kbl()
+ggplot(data = df) + 
+  geom_smooth(mapping = aes(x=age, y=ingtotob, linetype = as.factor(maxEducLevel))) 
+  
+  geom_point(mapping = aes(x = age, y = ingtotob, color = as.factor(maxEducLevel))) +
+  geom_smooth(mapping = aes(x = age, y = ingtotob))
+  
+ggplot(df)+
+  geom_boxplot(aes(as.factor(maxEducLevel), ingtotob))
+  
+
+
+## X
+x <- c(df$age, df$p6210, df$dsi, df$maxEducLevel, df$estrato1)
+  
+# Age-earnings profile
+model
+
+
+skimr::skim(geih)
+
 ```
-
-La base de datos **df** tiene las siguientes variables `r colnames(df)` y el valor mínimo de la variable **mpg** es `r min(df$mpg)`, y el modelo Mazda RX4 _`r df$i_mpg[df$modelo=="Mazda RX4"]`_
 
