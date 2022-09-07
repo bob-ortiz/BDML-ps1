@@ -2,14 +2,14 @@
 title: "Problem Set 1"
 author: "Gustavo A. Castillo Alvarez (201812166)"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document:
     theme: lumen
     highlight: tango
     toc: yes
     toc_float: yes
     df_print: paged
+  html_notebook: default
+  pdf_document: default
 urlcolor: blue
 linkcolor: red
 ---
@@ -20,11 +20,15 @@ Los documentos necesarios para replicar los datos aquí presente se debe acceder
 
 Primero preparamos el espacio de trabajo y cargamos las librerías a utilizar. Cargar las librerías necesarias mediante el paquete `groundhog` asegura la replicabilidad del código a a pesar de que ocurran cambios en las dependencias o en las librerías.
 
-```{r}
+
+```{r, echo=FALSE, results='hide'}
 install.packages("groundhog", repos = "http://cran.us.r-project.org")
 library(groundhog)
 pkgs=c("rvest", "dplyr", "caret", "kableExtra", "tidyverse", "stargazer")
-groundhog.library(pkg = pkgs, "2022-08-31")
+```
+
+```{r}
+groundhog.library(pkg = pkgs, date = "2022-08-31")
 ```
 
 
@@ -61,34 +65,30 @@ $$
 df$female <- ifelse(df$sex==0, 1, 0)
 df <- df %>%
   mutate(l_y=log(ingtotob))
-
 ```
+
 
 ```{r}
 # Análisis descriptivo
 ## Y
-class(df$ingtotob)
-plot(hist(df$ingtotob))
+#class(df$ingtotob)
+#plot(hist(df$ingtotob))
 
 ggplot(data = df) + 
   geom_smooth(mapping = aes(x=age, y=ingtotob, linetype = as.factor(maxEducLevel))) 
   
-  geom_point(mapping = aes(x = age, y = ingtotob, color = as.factor(maxEducLevel))) +
-  geom_smooth(mapping = aes(x = age, y = ingtotob))
   
-ggplot(df)+
-  geom_boxplot(aes(as.factor(maxEducLevel), ingtotob))
+#ggplot(df)+
+#  geom_boxplot(aes(as.factor(maxEducLevel), ingtotob))
   
 
 
 ## X
-x <- c(df$age, df$p6210, df$dsi, df$maxEducLevel, df$estrato1)
+#x <- c(df$age, df$p6210, df$dsi, df$maxEducLevel, df$estrato1)
   
 # Age-earnings profile
-model
-
-
-skimr::skim(geih)
 
 ```
+
+
 

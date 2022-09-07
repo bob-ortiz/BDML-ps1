@@ -1770,11 +1770,12 @@ utilizar. Cargar las librerías necesarias mediante el paquete
 que ocurran cambios en las dependencias o en las librerías.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5zdGFsbC5wYWNrYWdlcyhcImdyb3VuZGhvZ1wiLCByZXBvcyA9IFwiaHR0cDovL2NyYW4udXMuci1wcm9qZWN0Lm9yZ1wiKVxubGlicmFyeShncm91bmRob2cpXG5wa2dzPWMoXCJydmVzdFwiLCBcImRwbHlyXCIsIFwiY2FyZXRcIiwgXCJrYWJsZUV4dHJhXCIsIFwidGlkeXZlcnNlXCIsIFwic3RhcmdhemVyXCIpXG5ncm91bmRob2cubGlicmFyeShwa2cgPSBwa2dzLCBcIjIwMjItMDgtMzFcIilcbmBgYCJ9 -->
-<pre class="r"><code>install.packages(&quot;groundhog&quot;, repos = &quot;http://cran.us.r-project.org&quot;)
-library(groundhog)
-pkgs=c(&quot;rvest&quot;, &quot;dplyr&quot;, &quot;caret&quot;, &quot;kableExtra&quot;, &quot;tidyverse&quot;, &quot;stargazer&quot;)
-groundhog.library(pkg = pkgs, &quot;2022-08-31&quot;)</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3JvdW5kaG9nLmxpYnJhcnkocGtnID0gcGtncywgZGF0ZSA9IFwiMjAyMi0wOC0zMVwiKVxuYGBgIn0= -->
+<pre class="r"><code>groundhog.library(pkg = pkgs, date = &quot;2022-08-31&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1793,13 +1794,17 @@ del profesor</a>. Para obtener la base completa primero corro el script
 <h1>Punto 2: Age-earnings profile</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgPC0gdGlkeXZlcnNlOjpyZWFkX2NzdihcIi4uL3N0b3Jlcy9lbmN1ZXN0YS5jc3ZcIilcblxuYGBgIn0= -->
-<pre class="r"><code>df &lt;- tidyverse::read_csv(&quot;../stores/encuesta.csv&quot;)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgPC0gcmVhZC5jc3YoXCIuLi9zdG9yZXMvZW5jdWVzdGEuY3N2XCIpXG5kZiA8LSBkZiAlPiUgXG4gIG11dGF0ZShhZ2Vfc3FyID0gYWdlICogYWdlKVxuXG5tb2RlbDIgPC0gbG0oZGYkaW5ndG90b2J+ZGYkYWdlK2RmJGFnZV9zcXIpXG4jc2hvcnRnZWloIDwtIGdlaWggJT4lIGZpbHRlcihhZ2U+PTE4LCBkc2k9PTApXG4jbW9kZWwzIDwtIGxtKHNob3J0Z2VpaCRpbmd0b3R+c2hvcnRnZWloJGFnZSsoc2hvcnRnZWloICU+JSBtdXRhdGUoYWdlMiA9IGFnZSphZ2UpKSRhZ2UyKVxuc3RhcmdhemVyKG1vZGVsMiwgdHlwZSA9IFwidGV4dFwiKVxuXG5gYGAifQ== -->
+<pre class="r"><code>df &lt;- read.csv(&quot;../stores/encuesta.csv&quot;)
+df &lt;- df %&gt;% 
+  mutate(age_sqr = age * age)
+
+model2 &lt;- lm(df$ingtotob~df$age+df$age_sqr)
+#shortgeih &lt;- geih %&gt;% filter(age&gt;=18, dsi==0)
+#model3 &lt;- lm(shortgeih$ingtot~shortgeih$age+(shortgeih %&gt;% mutate(age2 = age*age))$age2)
+stargazer(model2, type = &quot;text&quot;)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6ICdyZWFkX2NzdicgaXMgbm90IGFuIGV4cG9ydGVkIG9iamVjdCBmcm9tICduYW1lc3BhY2U6dGlkeXZlcnNlJ1xuIn0= -->
-<pre><code>Error: &#39;read_csv&#39; is not an exported object from &#39;namespace:tidyverse&#39;</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1810,41 +1815,34 @@ del profesor</a>. Para obtener la base completa primero corro el script
 \]</span></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYkZmVtYWxlIDwtIGlmZWxzZShkZiRzZXg9PTAsIDEsIDApXG5kZiA8LSBkZiAlPiVcbiAgbXV0YXRlKGxfeT1sb2coaW5ndG90b2IpKVxuXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYkZmVtYWxlIDwtIGlmZWxzZShkZiRzZXg9PTAsIDEsIDApXG5kZiA8LSBkZiAlPiVcbiAgbXV0YXRlKGxfeT1sb2coaW5ndG90b2IpKVxuYGBgIn0= -->
 <pre class="r"><code>df$female &lt;- ifelse(df$sex==0, 1, 0)
 df &lt;- df %&gt;%
-  mutate(l_y=log(ingtotob))
-</code></pre>
+  mutate(l_y=log(ingtotob))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBbsOhbGlzaXMgZGVzY3JpcHRpdm9cbiMjIFlcbmNsYXNzKGRmJGluZ3RvdG9iKVxucGxvdChoaXN0KGRmJGluZ3RvdG9iKSlcblxuZ2dwbG90KGRhdGEgPSBkZikgKyBcbiAgZ2VvbV9zbW9vdGgobWFwcGluZyA9IGFlcyh4PWFnZSwgeT1pbmd0b3RvYiwgbGluZXR5cGUgPSBhcy5mYWN0b3IobWF4RWR1Y0xldmVsKSkpIFxuICBcbiAgZ2VvbV9wb2ludChtYXBwaW5nID0gYWVzKHggPSBhZ2UsIHkgPSBpbmd0b3RvYiwgY29sb3IgPSBhcy5mYWN0b3IobWF4RWR1Y0xldmVsKSkpICtcbiAgZ2VvbV9zbW9vdGgobWFwcGluZyA9IGFlcyh4ID0gYWdlLCB5ID0gaW5ndG90b2IpKVxuICBcbmdncGxvdChkZikrXG4gIGdlb21fYm94cGxvdChhZXMoYXMuZmFjdG9yKG1heEVkdWNMZXZlbCksIGluZ3RvdG9iKSlcbiAgXG5cblxuIyMgWFxueCA8LSBjKGRmJGFnZSwgZGYkcDYyMTAsIGRmJGRzaSwgZGYkbWF4RWR1Y0xldmVsLCBkZiRlc3RyYXRvMSlcbiAgXG4jIEFnZS1lYXJuaW5ncyBwcm9maWxlXG5tb2RlbFxuXG5cbnNraW1yOjpza2ltKGdlaWgpXG5cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBbsOhbGlzaXMgZGVzY3JpcHRpdm9cbiMjIFlcbiNjbGFzcyhkZiRpbmd0b3RvYilcbiNwbG90KGhpc3QoZGYkaW5ndG90b2IpKVxuXG5nZ3Bsb3QoZGF0YSA9IGRmKSArIFxuICBnZW9tX3Ntb290aChtYXBwaW5nID0gYWVzKHg9YWdlLCB5PWluZ3RvdG9iLCBsaW5ldHlwZSA9IGFzLmZhY3RvcihtYXhFZHVjTGV2ZWwpKSkgXG4gIFxuICBcbiNnZ3Bsb3QoZGYpK1xuIyAgZ2VvbV9ib3hwbG90KGFlcyhhcy5mYWN0b3IobWF4RWR1Y0xldmVsKSwgaW5ndG90b2IpKVxuICBcblxuXG4jIyBYXG4jeCA8LSBjKGRmJGFnZSwgZGYkcDYyMTAsIGRmJGRzaSwgZGYkbWF4RWR1Y0xldmVsLCBkZiRlc3RyYXRvMSlcbiAgXG4jIEFnZS1lYXJuaW5ncyBwcm9maWxlXG5cbmBgYCJ9 -->
 <pre class="r"><code># Análisis descriptivo
 ## Y
-class(df$ingtotob)
-plot(hist(df$ingtotob))
+#class(df$ingtotob)
+#plot(hist(df$ingtotob))
 
 ggplot(data = df) + 
   geom_smooth(mapping = aes(x=age, y=ingtotob, linetype = as.factor(maxEducLevel))) 
   
-  geom_point(mapping = aes(x = age, y = ingtotob, color = as.factor(maxEducLevel))) +
-  geom_smooth(mapping = aes(x = age, y = ingtotob))
   
-ggplot(df)+
-  geom_boxplot(aes(as.factor(maxEducLevel), ingtotob))
+#ggplot(df)+
+#  geom_boxplot(aes(as.factor(maxEducLevel), ingtotob))
   
 
 
 ## X
-x &lt;- c(df$age, df$p6210, df$dsi, df$maxEducLevel, df$estrato1)
+#x &lt;- c(df$age, df$p6210, df$dsi, df$maxEducLevel, df$estrato1)
   
 # Age-earnings profile
-model
-
-
-skimr::skim(geih)
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1852,7 +1850,7 @@ skimr::skim(geih)
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJvYmxlbSBTZXQgMSIKYXV0aG9yOiAiR3VzdGF2byBBLiBDYXN0aWxsbyBBbHZhcmV6ICgyMDE4MTIxNjYpIgpvdXRwdXQ6CiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0CiAgaHRtbF9ub3RlYm9vazogZGVmYXVsdAogIGh0bWxfZG9jdW1lbnQ6CiAgICB0aGVtZTogbHVtZW4KICAgIGhpZ2hsaWdodDogdGFuZ28KICAgIHRvYzogeWVzCiAgICB0b2NfZmxvYXQ6IHllcwogICAgZGZfcHJpbnQ6IHBhZ2VkCnVybGNvbG9yOiBibHVlCmxpbmtjb2xvcjogcmVkCi0tLQoKIyBQcmVwYXJhciBlc3BhY2lvIGRlIHRyYWJham8KCkxvcyBkb2N1bWVudG9zIG5lY2VzYXJpb3MgcGFyYSByZXBsaWNhciBsb3MgZGF0b3MgYXF1w60gcHJlc2VudGUgc2UgZGViZSBhY2NlZGVyIGFsIHJlcG9zaXRvcmlvIFtlbiBlc3RlIGVubGFjZV0oaHR0cHM6Ly9naXRodWIuY29tL2JvYi1vcnRpei9CRE1MLXBzMSkuIAoKUHJpbWVybyBwcmVwYXJhbW9zIGVsIGVzcGFjaW8gZGUgdHJhYmFqbyB5IGNhcmdhbW9zIGxhcyBsaWJyZXLDrWFzIGEgdXRpbGl6YXIuIENhcmdhciBsYXMgbGlicmVyw61hcyBuZWNlc2FyaWFzIG1lZGlhbnRlIGVsIHBhcXVldGUgYGdyb3VuZGhvZ2AgYXNlZ3VyYSBsYSByZXBsaWNhYmlsaWRhZCBkZWwgY8OzZGlnbyBhIGEgcGVzYXIgZGUgcXVlIG9jdXJyYW4gY2FtYmlvcyBlbiBsYXMgZGVwZW5kZW5jaWFzIG8gZW4gbGFzIGxpYnJlcsOtYXMuCgpgYGB7cn0KaW5zdGFsbC5wYWNrYWdlcygiZ3JvdW5kaG9nIiwgcmVwb3MgPSAiaHR0cDovL2NyYW4udXMuci1wcm9qZWN0Lm9yZyIpCmxpYnJhcnkoZ3JvdW5kaG9nKQpwa2dzPWMoInJ2ZXN0IiwgImRwbHlyIiwgImNhcmV0IiwgImthYmxlRXh0cmEiLCAidGlkeXZlcnNlIiwgInN0YXJnYXplciIpCmdyb3VuZGhvZy5saWJyYXJ5KHBrZyA9IHBrZ3MsICIyMDIyLTA4LTMxIikKYGBgCgoKIyBEYXRvcwoKIyMgQWRxdWlzaWNpw7NuIGRlIGRhdG9zCgpQYXJhIG9idGVuZXIgbG9zIGRhdG9zIGRlIGxhIGJhc2UgR0VJSCByZWFsaWPDqSBlbCByYXNwYWRvIHdlYiBhIHBhcnRpciBkZSBsYSBbcMOhZ2luYSB3ZWIgZGVsIHByb2Zlc29yXShodHRwczovL2lnbmFjaW9tc2FybWllbnRvLmdpdGh1Yi5pby9HRUlIMjAxOCBzYW1wbGUvKS4gUGFyYSBvYnRlbmVyIGxhIGJhc2UgY29tcGxldGEgcHJpbWVybyBjb3JybyBlbCBzY3JpcHQgYDEtc2NyYXBpbmcuUmAuIFBhcmEgbGEgCgoKCiMgUHVudG8gMjogQWdlLWVhcm5pbmdzIHByb2ZpbGUKCmBgYHtyfQpkZiA8LSByZWFkLmNzdigiLi4vc3RvcmVzL2VuY3Vlc3RhLmNzdiIpCmRmIDwtIGRmICU+JSAKICBtdXRhdGUoYWdlX3NxciA9IGFnZSAqIGFnZSkKCm1vZGVsMiA8LSBsbShkZiRpbmd0b3RvYn5kZiRhZ2UrZGYkYWdlX3NxcikKI3Nob3J0Z2VpaCA8LSBnZWloICU+JSBmaWx0ZXIoYWdlPj0xOCwgZHNpPT0wKQojbW9kZWwzIDwtIGxtKHNob3J0Z2VpaCRpbmd0b3R+c2hvcnRnZWloJGFnZSsoc2hvcnRnZWloICU+JSBtdXRhdGUoYWdlMiA9IGFnZSphZ2UpKSRhZ2UyKQpzdGFyZ2F6ZXIobW9kZWwyLCB0eXBlID0gInRleHQiKQoKYGBgCgojIFB1bnRvIDM6IFRoZSBnZW5kZXIgZWFybmluZ3MgZ2FwCgoKJCQKXGxvZyhpbmd0b3RvYik9XGJldGFfMStcYmV0YV8yIHNleCt1CiQkCgpgYGB7cn0KZGYkZmVtYWxlIDwtIGlmZWxzZShkZiRzZXg9PTAsIDEsIDApCmRmIDwtIGRmICU+JQogIG11dGF0ZShsX3k9bG9nKGluZ3RvdG9iKSkKCmBgYAoKYGBge3J9CiMgQW7DoWxpc2lzIGRlc2NyaXB0aXZvCiMjIFkKY2xhc3MoZGYkaW5ndG90b2IpCnBsb3QoaGlzdChkZiRpbmd0b3RvYikpCgpnZ3Bsb3QoZGF0YSA9IGRmKSArIAogIGdlb21fc21vb3RoKG1hcHBpbmcgPSBhZXMoeD1hZ2UsIHk9aW5ndG90b2IsIGxpbmV0eXBlID0gYXMuZmFjdG9yKG1heEVkdWNMZXZlbCkpKSAKICAKICBnZW9tX3BvaW50KG1hcHBpbmcgPSBhZXMoeCA9IGFnZSwgeSA9IGluZ3RvdG9iLCBjb2xvciA9IGFzLmZhY3RvcihtYXhFZHVjTGV2ZWwpKSkgKwogIGdlb21fc21vb3RoKG1hcHBpbmcgPSBhZXMoeCA9IGFnZSwgeSA9IGluZ3RvdG9iKSkKICAKZ2dwbG90KGRmKSsKICBnZW9tX2JveHBsb3QoYWVzKGFzLmZhY3RvcihtYXhFZHVjTGV2ZWwpLCBpbmd0b3RvYikpCiAgCgoKIyMgWAp4IDwtIGMoZGYkYWdlLCBkZiRwNjIxMCwgZGYkZHNpLCBkZiRtYXhFZHVjTGV2ZWwsIGRmJGVzdHJhdG8xKQogIAojIEFnZS1lYXJuaW5ncyBwcm9maWxlCm1vZGVsCgoKc2tpbXI6OnNraW0oZ2VpaCkKCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJvYmxlbSBTZXQgMSIKYXV0aG9yOiAiR3VzdGF2byBBLiBDYXN0aWxsbyBBbHZhcmV6ICgyMDE4MTIxNjYpIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIHRoZW1lOiBsdW1lbgogICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgICBkZl9wcmludDogcGFnZWQKICBodG1sX25vdGVib29rOiBkZWZhdWx0CiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0CnVybGNvbG9yOiBibHVlCmxpbmtjb2xvcjogcmVkCi0tLQoKIyBQcmVwYXJhciBlc3BhY2lvIGRlIHRyYWJham8KCkxvcyBkb2N1bWVudG9zIG5lY2VzYXJpb3MgcGFyYSByZXBsaWNhciBsb3MgZGF0b3MgYXF1w60gcHJlc2VudGUgc2UgZGViZSBhY2NlZGVyIGFsIHJlcG9zaXRvcmlvIFtlbiBlc3RlIGVubGFjZV0oaHR0cHM6Ly9naXRodWIuY29tL2JvYi1vcnRpei9CRE1MLXBzMSkuIAoKUHJpbWVybyBwcmVwYXJhbW9zIGVsIGVzcGFjaW8gZGUgdHJhYmFqbyB5IGNhcmdhbW9zIGxhcyBsaWJyZXLDrWFzIGEgdXRpbGl6YXIuIENhcmdhciBsYXMgbGlicmVyw61hcyBuZWNlc2FyaWFzIG1lZGlhbnRlIGVsIHBhcXVldGUgYGdyb3VuZGhvZ2AgYXNlZ3VyYSBsYSByZXBsaWNhYmlsaWRhZCBkZWwgY8OzZGlnbyBhIGEgcGVzYXIgZGUgcXVlIG9jdXJyYW4gY2FtYmlvcyBlbiBsYXMgZGVwZW5kZW5jaWFzIG8gZW4gbGFzIGxpYnJlcsOtYXMuCgoKYGBge3IsIGVjaG89RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQppbnN0YWxsLnBhY2thZ2VzKCJncm91bmRob2ciLCByZXBvcyA9ICJodHRwOi8vY3Jhbi51cy5yLXByb2plY3Qub3JnIikKbGlicmFyeShncm91bmRob2cpCnBrZ3M9YygicnZlc3QiLCAiZHBseXIiLCAiY2FyZXQiLCAia2FibGVFeHRyYSIsICJ0aWR5dmVyc2UiLCAic3RhcmdhemVyIikKYGBgCgpgYGB7cn0KZ3JvdW5kaG9nLmxpYnJhcnkocGtnID0gcGtncywgZGF0ZSA9ICIyMDIyLTA4LTMxIikKYGBgCgoKIyBEYXRvcwoKIyMgQWRxdWlzaWNpw7NuIGRlIGRhdG9zCgpQYXJhIG9idGVuZXIgbG9zIGRhdG9zIGRlIGxhIGJhc2UgR0VJSCByZWFsaWPDqSBlbCByYXNwYWRvIHdlYiBhIHBhcnRpciBkZSBsYSBbcMOhZ2luYSB3ZWIgZGVsIHByb2Zlc29yXShodHRwczovL2lnbmFjaW9tc2FybWllbnRvLmdpdGh1Yi5pby9HRUlIMjAxOCBzYW1wbGUvKS4gUGFyYSBvYnRlbmVyIGxhIGJhc2UgY29tcGxldGEgcHJpbWVybyBjb3JybyBlbCBzY3JpcHQgYDEtc2NyYXBpbmcuUmAuIFBhcmEgbGEgCgoKCiMgUHVudG8gMjogQWdlLWVhcm5pbmdzIHByb2ZpbGUKCmBgYHtyfQpkZiA8LSByZWFkLmNzdigiLi4vc3RvcmVzL2VuY3Vlc3RhLmNzdiIpCmRmIDwtIGRmICU+JSAKICBtdXRhdGUoYWdlX3NxciA9IGFnZSAqIGFnZSkKCm1vZGVsMiA8LSBsbShkZiRpbmd0b3RvYn5kZiRhZ2UrZGYkYWdlX3NxcikKI3Nob3J0Z2VpaCA8LSBnZWloICU+JSBmaWx0ZXIoYWdlPj0xOCwgZHNpPT0wKQojbW9kZWwzIDwtIGxtKHNob3J0Z2VpaCRpbmd0b3R+c2hvcnRnZWloJGFnZSsoc2hvcnRnZWloICU+JSBtdXRhdGUoYWdlMiA9IGFnZSphZ2UpKSRhZ2UyKQpzdGFyZ2F6ZXIobW9kZWwyLCB0eXBlID0gInRleHQiKQoKYGBgCgojIFB1bnRvIDM6IFRoZSBnZW5kZXIgZWFybmluZ3MgZ2FwCgoKJCQKXGxvZyhpbmd0b3RvYik9XGJldGFfMStcYmV0YV8yIHNleCt1CiQkCgpgYGB7cn0KZGYkZmVtYWxlIDwtIGlmZWxzZShkZiRzZXg9PTAsIDEsIDApCmRmIDwtIGRmICU+JQogIG11dGF0ZShsX3k9bG9nKGluZ3RvdG9iKSkKYGBgCgoKYGBge3J9CiMgQW7DoWxpc2lzIGRlc2NyaXB0aXZvCiMjIFkKI2NsYXNzKGRmJGluZ3RvdG9iKQojcGxvdChoaXN0KGRmJGluZ3RvdG9iKSkKCmdncGxvdChkYXRhID0gZGYpICsgCiAgZ2VvbV9zbW9vdGgobWFwcGluZyA9IGFlcyh4PWFnZSwgeT1pbmd0b3RvYiwgbGluZXR5cGUgPSBhcy5mYWN0b3IobWF4RWR1Y0xldmVsKSkpIAogIAogIAojZ2dwbG90KGRmKSsKIyAgZ2VvbV9ib3hwbG90KGFlcyhhcy5mYWN0b3IobWF4RWR1Y0xldmVsKSwgaW5ndG90b2IpKQogIAoKCiMjIFgKI3ggPC0gYyhkZiRhZ2UsIGRmJHA2MjEwLCBkZiRkc2ksIGRmJG1heEVkdWNMZXZlbCwgZGYkZXN0cmF0bzEpCiAgCiMgQWdlLWVhcm5pbmdzIHByb2ZpbGUKCmBgYAoKCgo=</div>
 
 
 
