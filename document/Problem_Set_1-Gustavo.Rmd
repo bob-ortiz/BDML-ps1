@@ -36,7 +36,7 @@ groundhog.library(pkg = pkgs, date = "2022-08-31")
 
 ## Adquisición de datos
 
-Para obtener los datos de la base GEIH realicé el raspado web a partir de la [página web del profesor](https://ignaciomsarmiento.github.io/GEIH2018 sample/). Para obtener la base completa primero corro el script `1-scraping.R`. Para la 
+Para obtener los datos de la base GEIH realicé el raspado web a partir de la [página web del profesor](https://ignaciomsarmiento.github.io/GEIH2018 sample/). Para obtener la base completa primero ejecutar el script `1-scraping.R` en la carpeta `scripts`. La base de datos completa está dividida en 10 partes, por lo que durante el raspado se concatenaron las 10 bases de 
 
 
 
@@ -50,6 +50,8 @@ df <- df %>%
 model2 <- lm(df$ingtotob~df$age+df$age_sqr)
 #shortgeih <- geih %>% filter(age>=18, dsi==0)
 #model3 <- lm(shortgeih$ingtot~shortgeih$age+(shortgeih %>% mutate(age2 = age*age))$age2)
+# también funciona así: 
+## stargazer(lm(ingtot~age+I(age^2), data = df), type = "text")
 stargazer(model2, type = "text")
 
 ```
