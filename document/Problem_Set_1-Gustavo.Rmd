@@ -36,7 +36,7 @@ groundhog.library(pkg = pkgs, date = "2022-08-31")
 
 ## Adquisición de datos
 
-Para obtener los datos de la base GEIH realicé el raspado web a partir de la [página web del profesor](https://ignaciomsarmiento.github.io/GEIH2018 sample/). Para obtener la base completa primero ejecutar el script `1-scraping.R` en la carpeta `scripts`. La base de datos completa está dividida en 10 partes, por lo que durante el raspado se concatenaron las 10 bases de 
+Para obtener los datos de la base GEIH realicé el raspado web a partir de la [página web del profesor](https://ignaciomsarmiento.github.io/GEIH2018 sample/). Para obtener la base completa primero ejecutar el script `1-scraping.R` en la carpeta `scripts`. Este proceso se demoró aproximadamentre 10 minutos en mi computador. La base de datos completa está dividida en 10 partes, por lo que durante el raspado se concatenaron las 10 bases de datos y se consolidó la final. Esta consta de 178 variables y 32,177 observaciones. El diccionario de datos se puede acceder [aquí](https://ignaciomsarmiento.github.io/GEIH2018_sample/dictionary.html). La base tiene información sobre 
 
 
 
@@ -46,7 +46,6 @@ Para obtener los datos de la base GEIH realicé el raspado web a partir de la [p
 df <- read.csv("../stores/encuesta.csv")
 df <- df %>% 
   mutate(age_sqr = age * age)
-
 model2 <- lm(df$ingtotob~df$age+df$age_sqr)
 #shortgeih <- geih %>% filter(age>=18, dsi==0)
 #model3 <- lm(shortgeih$ingtot~shortgeih$age+(shortgeih %>% mutate(age2 = age*age))$age2)
